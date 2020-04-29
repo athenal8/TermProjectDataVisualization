@@ -21,6 +21,13 @@ States
 Animation of States
 
 ## The variables needed for these areas (tabs) are as follows:
+Variable | Detail
+------------ | -------------
+state | more granular location
+lat | latitude
+lng | longtitude
+beds | number of beds per 1000
+
 ## In the first area, the following variables are included:
 Variable | Detail
 ------------ | -------------
