@@ -28,7 +28,7 @@ lat | latitude
 lng | longtitude
 beds | number of beds per 1000
 
-## In the first area, the following variables are included:
+## In the first areas (tabs), the following variables are included:
 Variable | Detail
 ------------ | -------------
 state | more granular location
@@ -36,19 +36,19 @@ lat | latitude
 lng | longtitude
 beds | number of beds per 1000
 
-## In the second area, the following variables are included:
+## In the second areas (tab), the following variables are included:
 Variable | Detail
 ------------ | -------------
 state | more granular location
 beds | number of beds per 1000
 
-## In the third area, the following variables are included:
+## In the third areas (tab), the following variables are included:
 Variable | Detail
 ------------ | -------------
 state | more granular location
 beds | number of beds per 1000
 
-## In the fourth area, the following variables are included:
+## In the fourth areas (tab), the following variables are included:
 Variable | Detail
 ------------ | -------------
 state | more granular location
