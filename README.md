@@ -7,11 +7,6 @@ This dashboard was built in [R](https://www.r-project.org/), an open source prog
 ## Input type for calculations
 This dashboard works with standard [csv-files (.csv)](/01_Data/USHospitalBeds.csv), which were extracted from the Global Hospital Beds Capacity (for covid-19) data with following package: USHospitalBeds. 
 
-## The variables needed for this dashboard are as follows:
-
-Input variables for this dashboard
-Country group data
-
 ## Story of dashboard
 The datasets provide a foundation for policymakers to understand the realistic capacity of healthcare providers being able to deal with the spikes in demand for intensive care. As a way to help, the [author](https://www.kaggle.com/ikiulian/global-hospital-beds-capacity-for-covid19#hospital_beds_USA_v1.csv) of this dataset has prepared a dataset of beds across countries and states. Work in progress dataset that should and will be updated as more data becomes available and public on weekly basis.
 
@@ -25,7 +20,7 @@ States
 
 Animation of States
 
-
+## The variables needed for these areas (tabs) are as follows:
 ## In the first area, the following variables are included:
 Variable | Detail
 ------------ | -------------
@@ -59,10 +54,11 @@ The dashboard can be found with the following link:
 ## An example of the first image of the dashboard:
 
 This graph shows the various units comparison between Acute, ICU, Psychiatric and other in group state of California, New York and FL. 
+Acute has the most beds throughout the grouping state of California, New York and FL. 
 ![Tri State Graph](/03_images/6.png)
 
 ## Privacy and storage
-This dashboard works with open source data. All data for the running example was collected from the Kaggle.
+This dashboard works with open source data. All data for the running example was collected from the [Kaggle](https://www.kaggle.com/).
 This dashboard can be run locally (for example: Shiny server) or on personal machines (mac, windows).
 
 ## Author
