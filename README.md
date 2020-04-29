@@ -28,7 +28,7 @@ lat | latitude
 lng | longtitude
 beds | number of beds per 1000
 
-## In the first areas (tabs), the following variables are included:
+## In the first areas (tab), the following variables are included:
 Variable | Detail
 ------------ | -------------
 state | more granular location
@@ -54,9 +54,8 @@ Variable | Detail
 state | more granular location
 beds | number of beds per 1000
 
-The dashboard can be found with the following link:
+## The dashboard can be found with the following link:
 [https://athenal-shinyapp-testing.shinyapps.io/Shiny/](https://athenal-shinyapp-testing.shinyapps.io/Shiny/)
-
 
 ## An example of the first image of the dashboard:
 
