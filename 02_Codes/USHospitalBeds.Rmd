@@ -1,0 +1,272 @@
+# 5 Interactive Graphs
+# 2 Animated Graphs
+# 2 Maps
+
+
+```{r}
+#Clean Workspace
+rm(list = ls())
+#Install libraries
+# install.packages("tidyverse")
+# install.packages("ggplot2")
+# install.packages("scales")
+#install.packages("devtools")
+#install.packages("gifski_renderer")
+#install.packages("png")
+#devtools::install_github('thomasp85/gganimate')
+#install.packages("plotly")
+#install.packages("timeSeries")
+#install.packages("maps")
+```
+
+```{r}
+#Load packages
+library(tidyverse)
+library(ggplot2)
+library(scales)
+library(gifski)
+#library(gifski_renderer)
+library(png)
+library(gganimate)
+library(gapminder)
+library(plotly)
+library(psych)
+library(timeSeries)
+library(maps)
+```
+
+```{r}
+# Import Data Set
+USHospitalBeds <- read.csv("USHospitalBeds.csv")
+```
+
+
+```{r}
+# Graph 1
+states <- map_data("state")
+
+# Data Frame of points(2)
+labs <- data.frame(
+  long = c(-122.064873, -74.21793, -81.51575), 
+  lat = c(36.951968, 43.29943, 27.66483),
+  names = c("CA","NY","FL"),
+  stringsAsFactors = FALSE)
+
+p1 <- ggplot(data = states) +
+  geom_polygon(aes(x = long, y = lat, fill = region, group = group),color = "white") +
+  coord_fixed(1.3) +
+  geom_point(data = labs, aes(x = long, y = lat), color = "red", size = 4) +
+  geom_point(data = labs, aes(x = long, y = lat), color = "blue", size = 3) + 
+  theme(legend.position = 'none') +
+  labs(title = "Hospital Beds in Washington and California States",
+       subtitle = "Acute",
+       x = "Longitude",
+       y = "Latitude")
+  guides(fill = FALSE) # do this to leave off the color legend 
+
+p1
+#ggplotly(p1)
+
+# Visualization: this plot shows the three geogrphic points of "CA","NY","FL". 
+```
+
+
+```{r}
+# Graph 2
+states <- map_data("state")
+CA <- subset(states, region == "california")
+
+counties <- map_data("county")
+CA_county <- subset(counties, region == "california")
+
+# Data Frame of points(2)
+CAlabs <- data.frame(
+  long = -122.064873,
+  lat = 36.951968,
+  names = "CA",
+  stringsAsFactors = FALSE)
+
+p2 <- ggplot(data = CA, mapping = aes(x = long, y = lat)) +
+  geom_polygon(color = "black", fill = "hotpink") +
+  coord_fixed(1) +
+  geom_point(data = CAlabs, aes(x = long, y = lat), color = "red", size = 4) +
+  geom_point(data = CAlabs, aes(x = long, y = lat), color = "blue", size = 3) + 
+  geom_polygon(color = "black", fill = NA) +
+  theme(legend.position = 'none') +
+  labs(title = "Hospital Beds in  California States",
+       x = "Longitude",
+       y = "Latitude")
+  guides(fill = FALSE) # do this to leave off the color legend 
+
+p2
+#ggplotly(p2)
+# Visualization: this plot shows the three geogrphic points of "FL".
+```
+```{r}
+head(USHospitalBeds)
+```
+
+```{r}
+# Gruoup and summarize the Total Bed counts by USHospitalBeds, state, type
+ByState <- group_by(USHospitalBeds, state, type) 
+ByStatetotal <- summarize(ByState, 
+                          TotalBeds = sum(beds))
+```
+
+
+```{r}
+# Graph 3
+California <- subset (ByStatetotal,state == "CA")
+
+p3<- ggplot(California, 
+        aes(x = type,y = TotalBeds,fill = type)) +
+        geom_bar(stat = "identity") +
+        theme(legend.position = 'none') +
+        labs(title = "Room Type VS. Availability",
+             subtitle = "Acute Unit the highest availability  availability in State of California",
+             x = "Room Type",
+             y = "Total beds in California per 1000 HAB") 
+p3
+#ggplotly(p3)
+# Visualization: this plot shows the geogrphic points of "CA" by comparing Total Beds count and type of the unit, it shows the Acute Unit the highest availability  availability in State of California.
+```
+
+
+```{r}
+# Graph 4
+NewYork <- subset (ByStatetotal,state == "NY")
+p4 <- ggplot(NewYork, 
+        aes(x = type,y = TotalBeds, fill = type)) +
+        geom_bar(stat = "identity") +
+        theme(legend.position = 'none') +
+        labs(title = "Room Type VS. Availability",
+             subtitle = "Acute Unit have the highest availability in State of New York",
+             x = "Room Type",
+             y = "Total beds in California per 1000 HAB") 
+p4
+#ggplotly(p4)
+# Visualization: this plot shows the geogrphic points of "NY" by comparing Total Beds count and type of the unit, it shows the Acute Unit have the highest availability in State of New York
+```
+
+
+```{r}
+# Graph 5
+Florida <- subset (ByStatetotal,state == "FL")
+p5 <- ggplot(Florida, 
+        aes(x = type,y = TotalBeds, fill = type)) +
+        geom_bar(stat = "identity") +
+        theme(legend.position = 'none') +
+        labs(title = "Room Type VS. Availability",
+             subtitle = "Acute Unit have the highest availability in State of Florida",
+             x = "Room Type",
+             y = "Total beds in Florida per 1000 HAB") 
+p5
+#ggplotly(p5)
+# Visualization: this plot shows the geogrphic points of "FL" by comparing Total Beds count and type of the unit, it shows the Acute Unit have the highest the availability in State of New York
+```
+
+
+```{r}
+# Graph 6
+ByStatetotal$state <- as.factor(ByStatetotal$state)
+SelectStates<-c("CA","NY","FL")
+#Select CA, NY, FL
+
+TriStates<-subset(ByStatetotal, subset = state%in%SelectStates)
+
+p6 <- ggplot(TriStates, 
+        aes(x = type,y = TotalBeds, fill = type)) +
+        geom_bar(stat = "identity") +
+        facet_wrap(~ state)  +
+        theme(legend.position = 'none',axis.text.x = element_text(angle = 45,size=8)) +
+        labs(title = "Room Type VS. Availability",
+             subtitle = "Acute Unit  have the widest range concerning the availability in State of CA,NY,FL",
+             x = "Room Type",
+             y = "Total beds in CA,NY,FL per 1000 HAB") 
+p6
+#ggplotly(p6)
+# Visualization: this plot shows the geogrphic points of "CA","NY","FL" by comparing Total Beds count and type of the unit, it shows the Acute Unit have the widest range concerning the availability in the combine of State of California, New York, Florida
+```
+
+
+```{r}
+# Graph 7
+Acute <- subset(USHospitalBeds, type == "ACUTE")
+AcuteTriStates <- subset(Acute, subset = state%in%SelectStates)
+p7 <- ggplot(AcuteTriStates, 
+        aes(x = type,y = beds)) +
+        geom_boxplot(mapping = aes(color = state)) +
+        theme(legend.position = 'none') +
+        labs(title = "Room Type VS. Availability",
+             subtitle = "Acute Unit has the most outlier concerning the availability in State of CA,NY,FL",
+             x = "ACUTE",
+             y = "Total beds in CA,NY,FL per 1000 HAB") 
+p7
+#ggplotly(p7)
+# Visualization: this boxplot shows the geogrphic points of "CA","NY","FL" by comparing Total Beds count and type of the unit, it shows the Acute Unit has the most outlier concerning the availability in the combine of State of California, New York, Florida
+```
+
+
+```{r}
+# Graph 8
+StatePercentage <- TriStates %>% count(TotalBeds) 
+                       
+p8 <- ggplot(StatePercentage, 
+        aes(x = TotalBeds,y = n, fill = TotalBeds)) +
+        geom_bar(stat="identity", width=1) 
+
+      pie =  p8+coord_polar("y",start=0)
+      pie
+# Visualization: this bar plot shows the percentage of each units in geogrphic points of "CA","NY","FL".
+```
+
+
+```{r}
+# Graph 9
+p9 <- ggplot(TriStates, 
+        aes(x = type,y = TotalBeds,fill = type)) +
+        geom_boxplot() +
+        theme(legend.position = 'none') +
+        labs(title = "Room Type VS. Availability",
+             subtitle = "Acute Unit  have the widest range concerning the availability in State of CA,NY,FL",
+             x = "Room Type",
+             y = "Total Beds in CA,NY,FL per 1000 HAB") +
+        #Here comes the gganimate code
+        transition_states(type, transition_length = 1, state_length = 2) +
+        enter_grow() + enter_drift(x_mod = -1) + 
+        exit_shrink() + exit_drift(x_mod = 6)
+        ease_aes('sine-in-out')
+p9
+# Visualization: this animation boxplot shows the geogrphic points of "CA","NY","FL" by comparing Total Beds count and type of the unit, it shows the Acute unit has the highest number compare to ICU, Psychiatric and other in the combine of State of California, New York, Florida. .
+```
+
+
+
+```{r}
+# Graph 10
+p10 <- ggplot(TriStates, 
+        aes(x = type,y = TotalBeds, fill = type)) +
+        geom_bar(stat = "identity") +
+        facet_wrap(~ state)  +
+        theme(legend.position = 'none',axis.text.x = element_text(angle = 45,size=8)) +
+        labs(title = "Room Type VS. Availability",
+             subtitle = "Acute Unit  have the widest range concerning the availability in State of CA,NY,FL",
+             x = "Room Type",
+             y = "Total beds in CA,NY,FL per 1000 HAB") +
+        #Here comes the gganimate code
+        transition_states(type, transition_length = 1, state_length = 2) +
+        enter_grow() +
+        exit_shrink() +
+        ease_aes('sine-in-out')
+p10
+# Visualization: this geom bar plot shows the geogrphic points of individual State "CA","NY","FL" by comparing Total Beds count and type of the unit, it shows Florida has the highest number of Acute unit compare to California, New York.
+```
+
+
+
+
+
+
+
+
+
