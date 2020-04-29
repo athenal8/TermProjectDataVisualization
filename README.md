@@ -62,7 +62,7 @@ The dashboard can be found with the following link:
 
 This graph shows the various units comparison between Acute, ICU, Psychiatric and other in group state of California, New York and FL. 
 Acute has the most beds throughout the grouping state of California, New York and FL. 
-![Tri State Graph](/03_images/6.png)
+![Tri State Graph](/03_Images/6.png)
 
 ## Privacy and storage
 This dashboard works with open source data. All data for the running example was collected from the [Kaggle](https://www.kaggle.com/).
